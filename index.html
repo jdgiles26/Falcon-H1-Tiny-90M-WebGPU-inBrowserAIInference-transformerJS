@@ -318,7 +318,7 @@
       const input = $("input");
       const sendBtn = $("send");
       const loader = $("loader");
-      const progress = $("progress");
+      const progressElement = $("progress");
       const chatContainer = document.querySelector(".chat-container");
 
       const SYSTEM_MESSAGE = {
@@ -348,7 +348,7 @@
               device: "webgpu",
               progress_callback: ({ status, progress }) => {
                 if (status === "progress_total")
-                  progress.textContent = `${progress.toFixed(0)}%`;
+                  progressElement.textContent = `${progress.toFixed(0)}%`;
               },
             },
           );
@@ -356,7 +356,7 @@
           input.disabled = false;
           input.focus();
         } catch (e) {
-          progress.textContent = `Error: ${e.message}`;
+          progressElement.textContent = `Error: ${e.message}`;
         }
       }
 
