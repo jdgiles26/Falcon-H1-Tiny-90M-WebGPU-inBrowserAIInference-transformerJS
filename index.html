@@ -344,7 +344,7 @@
             "text-generation",
             "onnx-community/Falcon-H1-Tiny-90M-Instruct-ONNX",
             {
-              dtype: "q4",
+              dtype: "fp16",
               device: "webgpu",
               progress_callback: ({ status, progress }) => {
                 if (status === "progress_total")
