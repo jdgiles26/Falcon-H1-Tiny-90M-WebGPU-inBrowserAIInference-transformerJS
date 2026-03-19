@@ -330,7 +330,6 @@
       let generator,
         isGenerating = false,
         messages = [SYSTEM_MESSAGE];
-      const fileProgress = new Map();
 
       const updateBtn = () =>
         (sendBtn.disabled = !input.value.trim() && !isGenerating);
@@ -345,21 +344,11 @@
             "text-generation",
             "onnx-community/Falcon-H1-Tiny-90M-Instruct-ONNX",
             {
-              dtype: "fp16",
+              dtype: "q4",
               device: "webgpu",
-              progress_callback: ({ status, file, loaded, total }) => {
-                if (
-                  status !== "progress" ||
-                  fileProgress.set(file, { loaded, total }).size < 6
-                )
-                  return;
-                const { loaded: l, total: t } = [
-                  ...fileProgress.values(),
-                ].reduce((a, b) => ({
-                  loaded: a.loaded + b.loaded,
-                  total: a.total + b.total,
-                }));
-                progress.textContent = `${((l / t) * 100).toFixed(0)}%`;
+              progress_callback: ({ status, progress }) => {
+                if (status === "progress_total")
+                  progress.textContent = `${progress.toFixed(0)}%`;
               },
             },
           );
